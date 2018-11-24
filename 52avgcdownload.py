@@ -31,7 +31,7 @@ def handle_file(video_m3u8, oldpath , newpath):
 
 def upload_file(video_m3u8, oldpath , newpath):
 	while True:
-		comm = 'onedrivecmd put "{0}" od:/'.format(str(newpath))
+		comm = 'onedrivecmd put "{0}" od:/52av/'.format(str(newpath))
 		print(comm)
 		res = os.popen(comm)
 		try:
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 	threads_list = []	#线程列表
 	#遍历list列表
 	for i in result_list:
-		video_name = re.sub("[“”（）？，、。！【】]","", str(i[0]))  		#片名
+		video_name = re.sub("[“”（）？，、。！【】\s]","", str(i[0]))  		#片名
 		prefix0= "F:\\videotutorial\\ceshi\\"
 		prefix = "/root/new_52av/"
 		oldpath = prefix + "oldvideo/" + video_name + ".mp4"
@@ -78,7 +78,6 @@ if __name__ == '__main__':
 		t.start()
 		while True:
 			# 判断正在运行的线程数量,如果小于5则退出while循环,
-			# 进入for循环启动新的进程.否则就一直在while循环进入死循环
 			if (len(threading.enumerate()) < 5):
 				break
 
