@@ -6,7 +6,7 @@ def download_file(video_m3u8, oldpath , newpath):
 	with open(oldpath, "wb") as f:
 		i = 0
 		while True:
-			url = video_m3u8[0:-5] + str(i) + '.ts'		#对m3u8链接切片，构造ts
+			url = video_m3u8 [0:-5]+ str(i) + '.ts'		#对m3u8链接切片，构造ts
 			print(url)
 			with closing(requests.get(url, stream=True)) as r:	 #r对应一个ts完整请求
 				content_size = int(r.headers['content-length'])		#获取ts大小
@@ -31,7 +31,7 @@ def handle_file(video_m3u8, oldpath , newpath):
 
 def upload_file(video_m3u8, oldpath , newpath):
 	while True:
-		comm = 'onedrivecmd put "{0}" od:/52av/'.format(str(newpath))
+		comm = 'onedrivecmd put "{0}" od:/video/52av/'.format(str(newpath))
 		print(comm)
 		res = os.popen(comm)
 		try:
@@ -54,7 +54,7 @@ if __name__ == '__main__':
 	#从数据库获取 没被下载过的资源 的结果集，存入list列表，并进行去重！
 	conn = sqlite3.connect("ziyuan.db")
 	c = conn.cursor()
-	db_result = c.execute("select * from ziyuanlist WHERE token = 0 ")
+	db_result = c.execute("select * from ziyuanlist WHERE token = 0 and downlink not NULL ")
 	result_list = []
 	for u in db_result:
 		result_list.append(u)
@@ -78,6 +78,6 @@ if __name__ == '__main__':
 		t.start()
 		while True:
 			# 判断正在运行的线程数量,如果小于5则退出while循环,
-			if (len(threading.enumerate()) < 5):
+			if (len(threading.enumerate()) < 8):
 				break
 
