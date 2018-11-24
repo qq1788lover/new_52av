@@ -44,8 +44,8 @@ if __name__ == '__main__':
 		#判断欲下载的资源是否已经下载,是0说明没下载过
 		if i[2]==0:
 			i0 = str(i[0]).replace(' ','').replace("(","").replace(")","")		#片名
-			path0 = "/root/52av/oldvideo/" + i0 + ".mp4"
-			newpath = "/root/52av/newvideo/" + i0 + ".mp4"
+			path0 = "/root/new_52av/oldvideo/" + i0 + ".mp4"
+			newpath = "/root/new_52av/newvideo/" + i0 + ".mp4"
 			url0 = str(i[1])[0:-5]		#片子m3u8链接
 			download_file(url0, path0,newpath)	
 			conn1 = sqlite3.connect("ziyuan.db")
@@ -57,7 +57,7 @@ if __name__ == '__main__':
 			comm0 = "ffmpeg -i {0} -acodec copy -vcodec copy -f mp4 -bsf:a aac_adtstoasc {1} -y".format(str(path0),str(newpath))    #转码生成新文件
 			os.system(comm0)
 			while True:
-				comm1 = 'onedrivecmd put "{0}" od:/'.format(str(newpath))
+				comm1 = 'onedrivecmd put "{0}" od:/video/52av/'.format(str(newpath))
 				print(comm1)
 				res = os.popen(comm1)
 				try:
